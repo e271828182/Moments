@@ -9,7 +9,6 @@ public class FileTest {
 		String path = "C:/Users/WSM/Desktop/temp222/";
 		File file = new File(path);
 		System.out.println(file.mkdirs());
-		System.out.println("1111");
 	}
 
 }
