@@ -1,0 +1,99 @@
+
+.nav-aside{
+	width:183px;
+	border:1px solid #d7d7d7;
+	background:#f3f3f3;
+	overflow:hidden;
+}
+
+.aside-dt{
+	height:34px;
+	text-align:center;
+	font:700 14px/34px simsun;
+	color:#555;
+	border-bottom:1px solid #d7d7d7;
+	
+}
+
+.aside-dd{
+	margin-top:-1px;
+}
+
+
+.aside-dd .sub-dl{
+	padding:4px 19px;
+	border-top:1px dotted #d7d7d7;
+	overflow:hidden;
+}
+
+.aside-dd .sub-dl dt{
+	font:700 13px/27px simsun;
+	color:#555;
+}
+
+.aside-dd .sub-dl dd{
+	float:left;
+	width:72px;
+	line-height:24px;
+	
+}
+
+
+.show-box-rt{
+	width:810px;
+}
+
+.show-box-tit{
+	border-bottom:2px solid #ccc;
+}
+.show-box-tit h2{
+	font:700 16px/34px simsun;
+	width:179px;
+	border-bottom:2px solid #096dba;
+	margin-bottom:-2px;
+}
+
+.show-box-item{
+	width:202px;
+	overflow:hidden;
+	float:left;
+}
+
+.item-pic{
+	width:202px;
+	height:123px;
+	text-align:center;
+	padding-top:42px;
+}
+
+.item-desc{
+	width:160px;
+	padding:0 21px;
+}
+
+.item-name{
+	line-height:18px;
+	padding-bottom:18px;
+}
+
+.item-price{
+	color:#d4105a;
+	font:700 12px/1 'microsoft yahei';
+	padding-bottom:7px;
+}
+
+.item-rank{
+	line-height:12px;
+}
+
+.item-rank i{
+	display:inline-block;
+	width:75px;
+	height:13px;
+	background:url("../icon/stars.jpg");
+}
+
+.item-rank .comment-link{
+	color:#085c9b;
+}
+

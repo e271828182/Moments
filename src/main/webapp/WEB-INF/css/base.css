@@ -1,0 +1,410 @@
+.mt17{
+	margin-top:17px;
+}
+
+.mb8{
+	margin-bottom:8px;
+}
+
+.mb20{
+	margin-bottom:20px;
+}
+
+.clearfix{
+	zoom:1;
+}
+
+.clearfix:after{
+	content:'';
+	display:block;
+	clear:both;
+}
+
+.w{
+	width:1000px;
+	margin:0 auto;
+}
+
+.fl{
+	float:left;
+}
+
+.fr{
+	float:right;
+}
+
+.cw-icon {
+	position: relative;
+	cursor: default;
+}
+
+.cw-icon i{
+	position:absolute;
+	display:block;
+	overflow:hidden;
+}
+
+
+.hide{
+	display:none;
+}
+
+.topbar{
+	height:31px;
+	background:#f7f7f7;
+	line-height:31px;
+}
+
+.topbar{
+	color:#666;
+}
+
+.fav-icon{
+	font-weight:bold;
+	color:#666;
+	padding-left:17px;
+	background:url("../icon/fav_icon.png") no-repeat left center;
+}
+
+.topbar .login{
+	padding-right:21px;
+}
+
+.header{
+	height:85px;
+	background:#1d7ad9;
+
+}
+
+.header-inner{
+	height:59px;
+	padding-top:11px;
+	padding-bottom:15px;
+	position:relative;
+	color:#fff;
+}
+
+.logo{
+	padding-left:40px;
+	width:112px;
+	height:59px;
+	float:left;
+}
+
+.logo a{
+	display:block;
+	width:112px;
+	height:59px;
+	background:url('../images/logo.png') no-repeat;
+	line-height:9999px;
+	overflow:hidden;
+}
+
+.search{
+	width:429px;
+	height:35px;
+	padding:12px 31px 12px 184px;
+	float:left;
+}
+
+.search input{
+	width:350px;
+	height:25px;
+	line-height:25px;
+	padding:5px;
+	float:left;
+}
+
+.search button{
+	float:left;
+	width:69px;
+	height:35px;
+	text-align:center;
+	font:14px/35px 'microsoft yahei' ;
+	background:#ff8c00;
+	color:#fff;
+}
+
+.settleup{
+	width:56px;
+	height:35px;
+	position:absolute;
+	background:#ff8800;
+	right:59px;
+	top:23px;
+	font:14px/35px 'microsoft yahei' ;
+	padding-left:33px;
+	padding-right:56px;
+
+
+}
+
+.settleup .ci-left{
+	width:23px;
+	height:20px;
+	background:url("../icon/settleup.png") no-repeat right center;
+	left:10px;
+	top:7px;
+}
+
+.settleup span{
+	float : left;
+	padding:0 7px;
+	background:url("../icon/settleup_bg.png") right 0  no-repeat ;
+}
+
+.settleup .ci-count{
+	top:0;
+	right:29px;
+}
+
+.settleup .ci-right{
+	width:12px;
+	height:12px;
+	top:12px;
+	right:11px;
+	background:url("../icon/delta_down.png");
+}
+
+.nav{
+	height:35px;
+	background:#1369c0;
+	color:#fff;
+
+}
+
+.nav a{
+	color:#fff;
+}
+
+.nav .dropdown{
+	float:left;
+	position:relative;
+	width:189px;
+}
+
+.nav-dt{
+	width:130px;
+	font-weight:bold;
+	padding:0 30px 0 29px;
+	font:16px/35px 'microsoft yahei';
+	z-index:2;
+}
+
+.nav-dt .ci-right{
+	width:11px;
+	height:7px;
+	top:14px;
+	right:30px;
+	background:url("../icon/caret_down.png") no-repeat right center;
+}
+
+.nav-dd{
+	display:none;
+	width:189px;
+	z-index:1;
+	overflow:hidden;
+
+}
+.dd-inner{
+	background:#4593fd;
+}
+
+.dd-inner li{
+	border-top:1px solid #5aa1fe;
+	border-bottom:1px solid #3487f2;
+	background:#4593fd;
+}
+
+.dd-inner .item{
+	border:1px solid #4593fd;
+	border-right:none;
+
+	padding:9px 13px 10px 10px;
+}
+
+.dd-inner .item:hover{
+	background:#fff;
+	color:#000;
+}
+
+.dd-inner .item:hover a{
+	color:#000;
+}
+
+.dd-inner .item:hover i{
+	background:#fff;
+}
+
+
+
+.dd-inner .item dt{
+	font:14px/22px 'microsoft yahei';
+}
+
+.dd-inner .item dd{
+	font:12px/20px simsun;
+}
+
+.dd-inner .ci-right{
+	width:5px;
+	height:8px;
+	right:13px;
+	top:17px;
+	background:url("../icon/delta_right.png") no-repeat;
+}
+
+
+
+.navitems{
+	float:left;
+}
+
+.nav-group li{
+	font:14px/35px 'microsoft yahei';
+	float:left;
+
+}
+
+.nav-group li a{
+	display:block;
+	padding:0 26px;
+	height:35px;
+}
+
+.nav-group li a:hover{
+	background:#4593fd;
+}
+
+
+
+.banner-rt{
+	width:811px;
+	float:right;
+}
+
+.banner-list{
+	position:relative;
+	width:1622px;
+	height:325px;
+}
+
+.banner-list .banner-list-item{
+	width:811px;
+	height:325px;
+	position:absolute;
+	left:0;
+	top:0;
+}
+
+
+
+.dd-layer{
+	display:none;
+	position:absolute;
+	width:530px;
+	padding:0 20px;
+	top:35px;
+	left:189px;
+	border:1px solid #ddd;
+	background:#fff;
+}
+
+
+
+.dd-layer a{
+	color:#666;
+	float:left;
+
+}
+
+.dd-layer dd a{
+	padding:0 6px;
+
+
+}
+
+.dd-layer dt a{
+	color:#4b88da;
+	font-weight:bold;
+}
+.dd-layer .fore{
+	padding:8px 0;
+	line-height:24px;
+	overflow:hidden;
+	border-bottom:1px solid #e5e5e5;
+}
+
+
+.dd-layer dd,.dd-layer dt{
+
+	float:left;
+}
+
+.dd-layer dt{
+	width:66px;
+
+}
+
+.dd-layer dd{
+	width:464px;
+}
+
+.item-channels{
+	padding:14px 0;
+	height:26px;
+
+}
+
+.item-channels a{
+	float:left;
+	line-height:26px;
+	background:#2785e6;
+	margin-right:10px;
+	padding-left:6px;
+	padding-right:26px;
+	color:#fff;
+}
+
+.item-channels i{
+	width:5px;
+	height:8px;
+	right:14px;
+	top:10px;
+	background:url("../icon/delta_right.png") no-repeat;
+}
+
+
+.footer{
+	height:200px;
+	margin-top:40px;
+	padding-top:23px;
+	background:#d4d4d4;
+}
+
+.footer .about,.footer .copyright{
+	text-align:center;
+	line-height:24px;
+}
+
+.footer .about a{
+	color:#000;
+}
+
+.footer .copyright{
+	margin-bottom:30px;
+}
+
+.footer-pic{
+	text-align:center;
+}
+
+.footer-link{
+	display:inline-block;
+	margin:0 10px;
+}
+
+.mt10{
+	margin-top:10px;
+}
+

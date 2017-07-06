@@ -1,0 +1,157 @@
+.w{
+	width:462px;
+	margin:0 auto;
+}
+
+.clearfix{
+	zoom:1;
+}
+
+.clearfix:after{
+	content:'';
+	display:block;
+	clear:both;
+}
+
+.header{
+	background:#1d7ad9;
+	padding:15px 0 13px 0;
+}
+
+.header .logo{
+	float:left;
+}
+
+.header .welcome{
+	float:left;
+
+}
+
+.header .welcome h1{
+	font:700 22px 'microsoft yahei';
+	color:#fff;
+	padding-top:22px;
+	padding-left:24px;
+}
+
+.login{
+	border:1px solid #e8e8e8;
+	margin-top:10px;
+	padding:41px 65px 22px 86px;
+	-webkit-border-radius:1px;
+	-moz-border-radius:1px;
+	border-radius:1px;
+}
+
+.input-title{
+	color:#999;
+	line-height:20px;
+}
+
+.input{
+	padding:5px 40px 5px 10px;
+	width:255px;
+	height:22px;
+	line-height:22px;
+}
+
+
+.input-name,.input-pass{
+	color:#999;
+	width:305px;
+	height:32px;
+	border:1px solid #999;
+	margin-bottom:10px;
+	position:relative;
+}
+
+.input-name label,.input-pass label{
+	position:absolute;
+	width:40px;
+	height:32px;
+	right:0;
+	top:0;
+}
+
+.input-name label{
+	background:url("../icon/user.jpg") no-repeat center;
+}
+
+.input-pass label{
+	background:url("../icon/pass.png") no-repeat center;
+}
+
+.safe{
+	margin-top:16px;
+	height:16px;
+	color:#333;
+}
+
+.chkbox{
+	margin-top:1px;
+}
+
+.safe label{
+	margin-right:14px;
+}
+.safe label,.chkbox{
+	float:left;
+}
+
+.forget{
+	color:#333;
+}
+
+.login-btn{
+	margin-top:30px;
+	margin-bottom:34px;
+}
+
+.login-btn .btn{
+	font:700 16px/34px 'microsoft yahei';
+	width:305px;
+	height:34px;
+	border:1px solid #cfe4f9;
+	text-align:center;
+	background:url("../icon/btn.png") no-repeat;
+	color:#606060;
+	-webkit-border-radius:1px;
+	-moz-border-radius:1px;
+	border-radius:1px;
+}
+
+.bind-title{
+	color:#999;
+	margin-bottom:8px;
+}
+
+.common a,.common div{
+	float:left;
+}
+
+.common a{
+	color:#666;
+}
+
+.common .spacer{
+	width:1px;
+	height:15px;
+	background:#dbdbdb;
+	margin:0 3px;
+}
+
+
+.register .reg-btn{
+	margin-right:42px;
+	float:right;
+	width:115px;
+	height:31px;
+	display:block;
+	line-height:31px;
+	text-align:center;
+	background:#7cbe56;
+	color:#fff;
+	font-size:16px;
+	border-bottom-left-radius:2px;
+	border-bottom-right-radius:2px;
+}

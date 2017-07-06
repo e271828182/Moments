@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>userlist</title>
+</head>
+<body>
+	<div th:if="${allErrors!=null}">
+		<div th:each="error:${allErrors}">
+			<div th:text="${error.defaultMessage}"></div>
+		</div>
+	</div>
+
+	<form th:action="@{/add}" method="post" enctype="multipart/form-data">
+		<table border="1">
+			<caption>增加人员信息</caption>
+			<tr>
+				<td>id</td>
+				<td>name</td>
+				<td>sex</td>
+				<td>age</td>
+				<td>birthday</td>
+				<td>照片</td>
+			</tr>
+			<tr>
+				<td><input name="id" th:value="${user==null?'':user.id}"></td>
+				<td><input name="name" th:value="${user==null?'':user.name}"></td>
+				<td><input name="sex" th:value="${user==null?'':user.sex}"></td>
+				<td><input name="age" th:value="${user==null?'':user.age}"></td>
+   				<td><input name="birthday" th:value="${user==null?'':user.birthday}"></td>
+   				<td><input name="user_pic" type="file"></td>
+			</tr>
+		</table>
+		<input type="submit" value="提交">
+	</form>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>userlist</title>
+</head>
+<body>
+	<form th:action="@{/download}" method="post">
+		<table border="1">
+			<caption>人员信息列表</caption>
+			<tr>
+				<td>id</td>
+				<td>name</td>
+				<td>sex</td>
+				<td>age</td>
+				<td>birthday</td>
+				<td>pic</td>
+				<td>删除</td>
+			</tr>
+			<tr th:each="list:${usersLise}">
+				<td><span th:text="${list.id}"></span><input type="checkbox" name="id" th:value="${list.id}"/></td>
+				<td th:text="${list.name}"></td>
+				<td th:text="${list.sex}"></td>
+				<td th:text="${list.age}"></td>
+ 				<td th:text="${#dates.format(list.birthday,'yyyy-MM-dd')}"></td>
+				<td><img th:src="@{/img(id=${list.id})}"alt="照片" width="100px" height="100px"></td>
+				<td><a th:href="@{/delete(id=${list.id})}">删除</a>
+				<a th:href="@{/toEdit(id=${list.id})}">修改</a></td>
+			</tr>
+		</table>
+		<a th:href="@{/toAdd}">增加</a>
+		<input type="submit" value="下载"/>
+	</form>
+</body>
+</html>
