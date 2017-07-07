@@ -26,4 +26,5 @@ public interface UserMapper {
 	public void addUser(User user);
 
 	public List<User> findUserListByIds(Integer[] ids);
+	
 }
