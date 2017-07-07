@@ -22,7 +22,7 @@ public interface UserMapper {
 	@Update("update usertable set name = #{name}, sex = #{sex}, age = #{age}, birthday = #{birthday}, pic = #{pic} where id = #{id}")
 	public void updateUser(User user);
 
-	@Update("insert into usertable values(#{id},#{name},#{sex},#{age},#{birthday},#{pic})")
+	@Update("insert into usertable(id,name,sex,age,birthday,pic) values(#{id},#{name},#{sex},#{age},#{birthday},#{pic})")
 	public void addUser(User user);
 
 	public List<User> findUserListByIds(Integer[] ids);

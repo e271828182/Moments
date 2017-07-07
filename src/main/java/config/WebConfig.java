@@ -37,6 +37,7 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.standard.StandardDialect;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
@@ -122,10 +123,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	 * 全局异常处理
 	 * @return
 	 */
-	@Bean
-	public CustomExceptionResolver customExceptionResolver(){
-		return new CustomExceptionResolver();
-	}
+//	@Bean
+//	public CustomExceptionResolver customExceptionResolver(){
+//		return new CustomExceptionResolver();
+//	}
 	
 	/**静态资源 DispatcherServlet配置了映射“/”，拦截所有的路径交给handeradapter处理，导致静态资源无法访问
 	 * 方式一：启用默认servlet处理静态资源
