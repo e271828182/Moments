@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.DiscussionMapper" >
+	<select id="findTopTen" resultMap="DiscussionMP">
+		select * from discussion order by up_num limit 0 , 9
+	</select>
+	<resultMap type="Discussion" id="DiscussionMP">
+		<id column="discussion_id" property="discussionId"/>
+		<result column="user_id" property="userId"/>
+	</resultMap>
+	
+</mapper>

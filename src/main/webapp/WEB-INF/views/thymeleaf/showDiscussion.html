@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>userlist</title>
+</head>
+<body>
+		<table>
+			<caption th:text="${discussion.name}"></caption>
+			<tr>
+				<td>分类：<span th:text="${discussion.topic}"></span></td>
+				<td>创建时间：<span th:text="${discussion.createTime}"></span></td>
+				<td>最后更新时间：<span th:text="${discussion.lastUpdateTime}"></span></td>
+				<td>顶：<span th:text="${discussion.upNum}"></span></td>
+				<td>踩：<span th:text="${discussion.downNum}"></span></td>
+				<td>评论数：<span th:text="${discussion.replyNum}"></span></td>
+			</tr>
+			<tr>
+				<td colspan="6">
+				<span th:text="${discussion.body}"></span>
+				</td>
+			</tr>
+		</table>
+</body>
+</html>

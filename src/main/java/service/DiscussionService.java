@@ -8,6 +8,10 @@ public interface DiscussionService {
 
 	List<Discussion> findTopTen();
 
-	Discussion findOne();
+
+	void save(Discussion discussion);
+
+
+	Discussion findOne(String discussionId);
 
 }

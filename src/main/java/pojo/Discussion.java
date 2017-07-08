@@ -7,6 +7,8 @@ public class Discussion {
 
 	private String discussionId;
 	
+	private String userId;
+	
 	private String topic;//分类
 	
 	private String name;
@@ -103,6 +105,14 @@ public class Discussion {
 
 	public void setReplys(List<Reply> replys) {
 		this.replys = replys;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 	

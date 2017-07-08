@@ -46,8 +46,10 @@
             </div>
         </div>
     </div>
+    <div><a th:href="@{/index/toCreate}">创建讨论</a></div>
+    <div>top10</div>
    <div th:each="discussion:${discussions}">
-   	<a th:href="@{/index/discussion.discussionId}" th:text="${discussion.name}"></a>
+   	<a th:href="@{/index/toDiscussion(discussionId=${discussion.discussionId})}" th:text="${discussion.name}"></a>
    </div>
 </body>
 </html>
