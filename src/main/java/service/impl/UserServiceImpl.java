@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import mappers.UserMapper;
 import pojo.User;
 import service.UserService;
+import util.CreateExcel;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,13 +23,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(Integer id) {
+	public void deleteUser(String id) {
 		userMapper.deleteUser(id);
 		
 	}
 
 	@Override
-	public User findOne(Integer id) {
+	public User findOne(String id) {
 		return userMapper.findOne(id);
 		
 	}

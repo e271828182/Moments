@@ -113,12 +113,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	/**
 	 * 配置集中转发页面
 	 */
-	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("jsp/home");
-		registry.addViewController("/tologin").setViewName("thymeleaf/login");
-		registry.addViewController("/toAdd").setViewName("thymeleaf/userAdd");
-	}
+//	@Override
+//	public void addViewControllers(ViewControllerRegistry registry) {
+//		registry.addViewController("/").setViewName("thymeleaf/index");
+//		registry.addViewController("/tologin").setViewName("thymeleaf/login");
+//		registry.addViewController("/toAdd").setViewName("thymeleaf/userAdd");
+//	}
 	/**
 	 * 全局异常处理
 	 * @return

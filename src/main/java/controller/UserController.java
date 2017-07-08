@@ -48,7 +48,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("/delete")
-	public String delete(@RequestParam Integer id, @Value(value = "${user.pic.filepath}") String path){
+	public String delete(@RequestParam String id, @Value(value = "${user.pic.filepath}") String path){
 		User user = userService.findOne(id);
 		File oldfile = new File(path+user.getPic());
 		if(oldfile.exists()) oldfile.delete();
@@ -58,7 +58,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("/toEdit")
-	public ModelAndView toEdit(ModelAndView model,@RequestParam Integer id){
+	public ModelAndView toEdit(ModelAndView model,@RequestParam String id){
 		User user = userService.findOne(id);
 		model.addObject("user", user);
 		model.setViewName("thymeleaf/userEdit");
@@ -72,7 +72,7 @@ public class UserController {
 
 		String newFileName = handelPic(user_pic,path);
 		if(!"".equals(newFileName) && newFileName!=null){
-			user = userService.findOne(user.getId());
+			user = userService.findOne(user.getUserId());
 			File oldfile = new File(path+user.getPic());
 			if(oldfile.exists()) oldfile.delete();
 			user.setPic(newFileName);
@@ -127,7 +127,7 @@ public class UserController {
 	@RequestMapping("/img")
 	public void img(HttpServletResponse response,
 						@Value(value = "${user.pic.filepath}") String path,
-						@RequestParam Integer id){
+						@RequestParam String id){
 		User user = userService.findOne(id);
 		if(user==null || user.getPic()==null || "".equals(user.getPic()))return;
 		response.setContentType("image/jpeg");

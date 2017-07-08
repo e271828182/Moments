@@ -15,7 +15,7 @@ public class Demo {
 	public String getDemo(Model model){
 		User u = new User();
 		u.setAge(10);
-		u.setId(12);
+		u.setUserId("aa");
 		u.setName("fasf");
 		u.setBirthday(new Date());
 		model.addAttribute("user", u);

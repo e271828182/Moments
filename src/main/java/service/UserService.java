@@ -12,9 +12,9 @@ public interface UserService {
 	public List<User> findAllUsers();
 
 	@Transactional
-	public void deleteUser(Integer id);
+	public void deleteUser(String id);
 
-	public User findOne(Integer id);
+	public User findOne(String id);
 
 	@Transactional
 	public void updateUser(User user);

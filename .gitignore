@@ -3,3 +3,5 @@ target/
 .classpath
 .project
 README.md
+src/main/resources/c3p0-config.xml
+src/main/resources/config.properties

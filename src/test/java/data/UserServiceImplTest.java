@@ -20,7 +20,7 @@ public class UserServiceImplTest {
 
 	@Test
 	public void test() {
-		User user = userService.findOne(33);
+		User user = userService.findOne("");
 		System.out.println(user);
 	}
 
