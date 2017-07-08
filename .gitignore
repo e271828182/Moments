@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 target/
 .settings/
 .classpath
@@ -5,3 +6,12 @@ target/
 README.md
 src/main/resources/c3p0-config.xml
 src/main/resources/config.properties
+=======
+target/
+.settings/
+.classpath
+.project
+README.md
+c3p0-config.xml
+config.properties
+>>>>>>> origin/master
