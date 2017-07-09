@@ -11,11 +11,11 @@ import pojo.Reply;
 
 public interface ReplyMapper {
 
-	@Insert("insert into reply(reply_id,discussion_id,pid,user_id,body,create_time) "
-			+ "values(#{replyId},#{discussionId},#{parentReply.replyId},#{userId},#{body},#{createTime})")
+	@Insert("insert into reply(reply_id,discussion_id,pid,user_id,body,create_time,name) "
+			+ "values(#{replyId},#{discussionId},#{parentReply.replyId},#{userId},#{body},#{createTime},#{name})")
 	void save(Reply reply);
 
-	@Select("select * from reply order by create_time desc")
+	@Select("select * from reply where discussion_id=#{discussionId} order by create_time ")
 	@Results({
 		@Result(id=true, column="reply_id", property="replyId"),
 		@Result(id=true, column="discussion_id", property="discussionId"),
@@ -23,6 +23,6 @@ public interface ReplyMapper {
 		@Result(id=true, column="user_id", property="userId"),
 		@Result(id=true, column="create_time", property="createTime")
 	})
-	List<Reply> findAll();
+	List<Reply> findAll(String discussionId);
 
 }

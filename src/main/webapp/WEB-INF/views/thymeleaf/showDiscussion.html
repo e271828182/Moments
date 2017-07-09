@@ -37,10 +37,11 @@
 		<div th:each="reply:${replys}">
 			<table>
 				<tr>
-					<td th:text="${reply.body}"></td>
+					<td th:text="${reply.createTime}"></td>
+					<td th:text="${reply.name}"></td>
 				</tr>
 				<tr>
-					<td th:text="${reply.createTime}"></td>
+					<td colspan="2" th:text="${reply.body}"></td>
 				</tr>
 			</table>
 		</div>
@@ -52,10 +53,15 @@
 			<input type="submit" value="回复">
 		</form>
 		
+		<button id="stop">不再推送消息</button>
+		<div id="showMessage"></div>
+		<div id="output"></div>
+		
 </body>
 
 
 <script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/sockjs.min.js}"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	
@@ -67,9 +73,8 @@ $(document).ready(function(){
 			  });  
 		  }
 	});
-		  
-	  
-	  $("#button2").click(function(){
+	
+	 $("#button2").click(function(){
 		  if("[(${session.userMsg})]"==""){
 			  alert("请先登录");
 		  }else{
@@ -78,7 +83,62 @@ $(document).ready(function(){
 			  });
 		  }
 	  });
+		  
+	var sock = new SockJS([[@{/notify}]]);
+
+	      sock.onopen = function() {
+	    	  sock.send("准备就绪");
+	      }
+	      
+	      sock.onmessage = function(e) {
+	    	  $('#output').append('Received "' + e.data + '"<br/>');
+	    	  setTimeout(function(){deleteMsg()}, 2000);
+	      }
+	      
+	      sock.onclose = function() {
+	    	  deleteMsg();
+	    	  $("#showMessage").text("推送已经取消");
+	      }
+	      
+	      function deleteMsg() {
+	    	  $('#output').attr("type","hidden");
+	      }
+
+	      $('#stop').click(function() {sock.close()});
+	      
+	      window.onbeforeunload = function() {
+              sock.close();
+          };
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*   
+	 
 	  
+	  if(!("WebSocket" in window))
+      {
+          $("#showMessage").text('您的浏览器不支持WebSocket,无法获得推送，请升级！！');
+          return;
+      }
+	  
+	  var server;
+      try {
+          server = new WebSocket("ws://localhost:8080/notify/ticTacToe/${gameId}/${username}/${action}"
+                  </c:url>');
+      } catch(error) {
+          $("#showMessage").text(error);
+          return;
+      }
+	  
+	   */
 	  
 		  
 });

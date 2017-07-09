@@ -1,4 +1,4 @@
-package marcopolo;
+package websocket;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(marcoHandler(), "/marco").withSockJS();
+		registry.addHandler(marcoHandler(), "/notify").withSockJS();
 	}
   
 	@Bean

@@ -28,8 +28,6 @@ public class ReplyController {
 	public void upNumAdd(HttpServletResponse response,
 						String userId,
 						String discussionId){
-		System.out.println("user:"+userId);
-		System.out.println("dis:"+discussionId);
 		try {
 			response.getWriter().write(discussionService.upNumAdd(discussionId).toString());
 		} catch (IOException e) {
@@ -42,8 +40,6 @@ public class ReplyController {
 	public void downNumAdd(HttpServletResponse response,
 						String userId,
 						String discussionId){
-		System.out.println(userId);
-		System.out.println(discussionId);
 		try {
 			response.getWriter().write(discussionService.downNumAdd(discussionId).toString());
 		} catch (IOException e) {
