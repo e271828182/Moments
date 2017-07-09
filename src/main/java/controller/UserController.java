@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import controller.validation.ValidGroupOne;
+import controller.validation.UserLoginValidGroup;
 import exception.CustomException;
 import pojo.User;
 import service.UserService;
@@ -102,7 +102,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("/add")
-	public String add(@Validated(value={ValidGroupOne.class}) @ModelAttribute("user") User user,BindingResult bindingResult,
+	public String add(@Validated(value={UserLoginValidGroup.class}) @ModelAttribute("user") User user,BindingResult bindingResult,
 						MultipartFile user_pic,
 						@Value(value = "${user.pic.filepath}") String path,
 						Model model) throws IOException, CustomException{

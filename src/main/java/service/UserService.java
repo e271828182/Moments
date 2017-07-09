@@ -26,4 +26,8 @@ public interface UserService {
 
 	public HSSFWorkbook getExcelByIds(Integer[] ids,String... path);
 
+	public User findUserByNameAndPassword(String name, String password);
+
+	public Object findUserByName(String name);
+
 }

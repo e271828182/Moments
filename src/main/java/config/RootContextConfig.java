@@ -22,7 +22,7 @@ import security.SecurityConfiguration;
 @MapperScan(basePackages={"mappers"})
 @ComponentScan(basePackages={"service.impl"})
 @EnableTransactionManagement
-@Import(SecurityConfiguration.class)
+//@Import(SecurityConfiguration.class)
 public class RootContextConfig {
 	
 	@Bean

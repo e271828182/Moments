@@ -14,4 +14,15 @@ public interface DiscussionService {
 
 	Discussion findOne(String discussionId);
 
+
+	void update(Discussion discussion);
+
+
+	Integer upNumAdd(String discussionId);
+
+
+	Integer downNumAdd(String discussionId);
+
+
+
 }

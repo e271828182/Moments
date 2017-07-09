@@ -3,18 +3,28 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>userlist</title>
+<title>讨论页面</title>
 </head>
 <body>
+	<div th:if="${session.userMsg!=null}">
+	<div id="userId" hidden="true" th:text="${session.userMsg.userId}"></div>
+    <div th:text="${session.userMsg.name}"></div>
+    <div><a th:href="@{/homePage}">个人主页</a></div>
+   	</div>
+     <div th:if="${session.userMsg==null}">
+      <a href="/toLogin" id="login">[登陆]</a>
+      <a href="/toRegister" id="register">[免费注册]</a>                
+     </div>
+
 		<table>
 			<caption th:text="${discussion.name}"></caption>
 			<tr>
 				<td>分类：<span th:text="${discussion.topic}"></span></td>
 				<td>创建时间：<span th:text="${discussion.createTime}"></span></td>
 				<td>最后更新时间：<span th:text="${discussion.lastUpdateTime}"></span></td>
-				<td>顶：<span th:text="${discussion.upNum}"></span></td>
-				<td>踩：<span th:text="${discussion.downNum}"></span></td>
-				<td>评论数：<span th:text="${discussion.replyNum}"></span></td>
+				<td>顶：<span id="upNum" th:text="${discussion.upNum}"></span></td>
+				<td>踩：<span id="downNum" th:text="${discussion.downNum}"></span></td>
+				<td>评论数：<span id="replyNum" th:text="${discussion.replyNum}"></span></td>
 			</tr>
 			<tr>
 				<td colspan="6">
@@ -22,5 +32,56 @@
 				</td>
 			</tr>
 		</table>
+		<button id="button1" >顶</button>
+		<button id="button2" >踩</button>
+		<div th:each="reply:${replys}">
+			<table>
+				<tr>
+					<td th:text="${reply.body}"></td>
+				</tr>
+				<tr>
+					<td th:text="${reply.createTime}"></td>
+				</tr>
+			</table>
+		</div>
+		
+		<form id="from" th:action="@{/reply/add}" method="post">
+			<input type="hidden" name="userId" th:value="${session.userMsg==null?'':(session.userMsg.userId==null?'':session.userMsg.userId)}">
+			<input type="hidden" name="discussionId" th:value="${discussion.discussionId}">
+			<textarea name="body" th:value="${reply==null?'':(reply.body==null?'':reply.body)}"></textarea>
+			<input type="submit" value="回复">
+		</form>
+		
 </body>
+
+
+<script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	$("#button1").click(function(){
+		if("[(${session.userMsg})]"=="")alert("请先登录");
+		  else{
+			  $.post("/upNumAdd",{"userId":$("#userId").text(),"discussionId":"[(${discussion.discussionId})]"},function(result){
+				  $("#upNum").text(result);
+			  });  
+		  }
+	});
+		  
+	  
+	  $("#button2").click(function(){
+		  if("[(${session.userMsg})]"==""){
+			  alert("请先登录");
+		  }else{
+			  $.post("/downNumAdd",{"userId":$("#userId").text(),"discussionId":"[(${discussion.discussionId})]"},function(result){
+				  $("#downNum").html(result);
+			  });
+		  }
+	  });
+	  
+	  
+		  
+});
+
+</script>
 </html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>userlist</title>
+</head>
+<body>
+	<div th:if="${allErrors!=null}">
+		<div th:each="error:${allErrors}">
+			<div th:text="${error.defaultMessage}"></div>
+		</div>
+	</div>
+
+	<form th:action="@{/register}" method="post" enctype="multipart/form-data">
+		<table border="1">
+			<caption>注册信息</caption>
+			<tr>
+				<td>name</td>
+				<td><input name="name" th:value="${user==null?'':(user.name==null?'':user.name)}"></td>
+			</tr>
+			<tr>
+				<td>nickname</td>
+				<td><input name="nickname" th:value="${user==null?'':(user.nickname==null?'':user.nickname)}"></td>
+			</tr>
+			<tr>
+				<td>password</td>
+				<td><input type="password" name="password" th:value="${user==null?'':(user.password==null?'':user.password)}"></td>
+			</tr>
+			<tr>
+				<td>确认密码</td>
+				<td><input type="password" name="password2"></td>
+			</tr>
+			<tr>
+				<td>sex</td>
+				<td><input type="radio" name="sex" th:checked="${user==null?'':(user.sex=='男'?'checked':'')}" value="男">男
+				<input type="radio" name="sex" th:checked="${user==null?'':(user.sex=='女'?'checked':'')}" value="女">女</td>
+			</tr>
+			<tr>
+				<td>birthdary</td>
+				<td><input name="birthday" th:value="${user==null?'':(user.birthday==null?'':#dates.format(user.birthday,'yyyy-MM-dd'))}"></td>
+			</tr>
+			<tr>
+				<td>telephone</td>
+				<td><input name="telephone" th:value="${user==null?'':user.telephone}"></td>
+			</tr>
+			<tr>
+				<td>email</td>
+				<td><input name="email" th:value="${user==null?'':user.email}"></td>
+			</tr>
+			<tr>
+				<td>照片</td>
+				<td><input name="user_pic" type="file"></td>
+			</tr>
+		</table>
+		<input type="submit" value="提交">
+	</form>
+
+</body>
+</html>

@@ -6,7 +6,6 @@
 <title>预览</title>
 </head>
 <body>
-		
 		<table>
 			<caption th:text="${discussion.name}"></caption>
 			<tr>
@@ -23,6 +22,10 @@
 				</td>
 			</tr>
 		</table>
-		<a th:href="@{/index/toSave}">保存</a>
+		
+		<form th:action="@{/discussion/toSave}" method="post">
+			<input type="hidden" name="discussionId" th:value="${discussion.discussionId}">
+			<input type="submit" value="保存">
+		</form>
 </body>
 </html>

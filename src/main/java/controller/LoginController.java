@@ -1,6 +1,14 @@
 package controller;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.List;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -9,12 +17,24 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+
+import controller.validation.UserLoginValidGroup;
+import controller.validation.UserRegisterValidGroup;
+import exception.CustomException;
+import pojo.User;
+import service.UserService;
 
 /**
  * 
@@ -27,6 +47,9 @@ public class LoginController {
 
     @Autowired
     private Producer captchaProducer;
+    
+    @Autowired
+	private UserService userService;
 
     /**
      * 
@@ -64,14 +87,89 @@ public class LoginController {
     }
     
     @RequestMapping("/login")
-    public ModelAndView login(ModelAndView model,
-    					String name, 
-    					String password,
+    public String login(Model model,
+    					@Validated(value={UserLoginValidGroup.class}) @ModelAttribute("user") User user,BindingResult bindingResult,
     					String vcode,
     					HttpSession session){
-    	System.out.println(name+":"+password+":"+vcode);
-    	System.out.println((String)session.getAttribute(Constants.KAPTCHA_SESSION_KEY));
-    	model.setViewName("index");
-    	return model;
+    	if(bindingResult.hasErrors()){
+			List<ObjectError> allErrors = bindingResult.getAllErrors();
+			for(ObjectError o : allErrors){
+				System.out.println(o.getDefaultMessage());
+			}
+			model.addAttribute("allErrors", allErrors);
+			return "thymeleaf/login";
+		}
+    	if(!((String)session.getAttribute(Constants.KAPTCHA_SESSION_KEY)).equals(vcode)){
+    		model.addAttribute("allErrors", new String[]{"对不起，验证码不正确！"});
+    		return "thymeleaf/login";
+    	}
+    	User user2 = userService.findUserByNameAndPassword(user.getName(),user.getPassword());
+    	if(user2==null){
+    		model.addAttribute("allErrors", new String[]{"对不起，用户名或密码不正确！"});
+    		return "thymeleaf/login";
+    	}
+    	session.setAttribute("userMsg", user2);
+    	
+    	return "redirect:/";
     }
+    
+    
+    @RequestMapping("/register")
+    public String toReigster(Model model,
+    					@Validated(value={UserRegisterValidGroup.class}) @ModelAttribute("user") User user,BindingResult bindingResult,
+    					String password2,
+    					MultipartFile user_pic,
+						@Value(value = "${user.pic.filepath}") String path,
+    					HttpSession session){
+    	if(bindingResult.hasErrors()){
+			List<ObjectError> allErrors = bindingResult.getAllErrors();
+			for(ObjectError o : allErrors){
+				System.out.println(o.getDefaultMessage());
+			}
+			model.addAttribute("allErrors", allErrors);
+			return "thymeleaf/register";
+		}
+    	if(userService.findUserByName(user.getName()) != null){
+    		model.addAttribute("allErrors", new String[]{"用户名已经存在"});
+			return "thymeleaf/register";
+    	}
+
+    	if(!password2.equals(user.getPassword())){
+    		model.addAttribute("allErrors", new String[]{"两次密码不一致"});
+			return "thymeleaf/reigster";
+    	}
+    	if(user_pic!=null){
+			String newFileName = handelPic(user_pic,path);
+			user.setPic(newFileName);
+		}
+    	user.setUserId(UUID.randomUUID().toString());
+    	
+    	userService.addUser(user);
+    	session.setAttribute("userMsg", user);
+    	
+    	return "redirect:/";
+    }
+    
+    private String handelPic(MultipartFile user_pic,String path){
+		String picName = user_pic.getOriginalFilename();
+		if("".equals(picName)||picName==null)return "";
+		String picSuffix = picName.substring(picName.lastIndexOf("."));
+		UUID randomUUID = UUID.randomUUID();
+		File newfile = new File(path+randomUUID+picSuffix);
+		try (InputStream in = user_pic.getInputStream();
+			FileOutputStream out = new FileOutputStream(newfile);){		
+			FileChannel channel = out.getChannel();
+			byte[] b = new byte[64];
+			int n = -1;
+			while((n=in.read(b))!=-1){
+				ByteBuffer buffer = ByteBuffer.wrap(b, 0, n);
+				channel.write(buffer);
+			}
+			out.flush();
+		}catch(IOException e){
+			e.printStackTrace();
+			throw new CustomException("照片上传失败");
+		}
+		return randomUUID+picSuffix;
+	}
 }

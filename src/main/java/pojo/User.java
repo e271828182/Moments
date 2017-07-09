@@ -6,23 +6,26 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import controller.validation.ValidGroupOne;
+import controller.validation.UserLoginValidGroup;
+import controller.validation.UserRegisterValidGroup;
 
 public class User {
 	private String userId;
 
-	@Size(min=2,max=30,message="{user.name.length.error}",groups=ValidGroupOne.class)
+	@Size(min=2,max=30,message="{user.name.length.error}",groups=UserLoginValidGroup.class)
+	@NotNull(message="{user.name.isnull}",groups=UserLoginValidGroup.class)
     private String name;
 	
 	private String nickname;
 	
+	@NotNull(message="{user.birthday.isnull}",groups=UserLoginValidGroup.class)
 	private String password;
 
     private String sex;
 
     private Integer age;
     
-    @NotNull(message="{user.birthday.isnull}",groups=ValidGroupOne.class)
+    @NotNull(message="{user.birthday.isnull}",groups=UserRegisterValidGroup.class)
     private Date birthday;
     
     private String telephone;

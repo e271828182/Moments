@@ -24,8 +24,32 @@ public class Discussion {
 	private Integer downNum;
 	
 	private Integer replyNum;
+	
+	private Integer status;//0是草稿，1表示已经发布，2表示时间太长不允许回复
 		
 	private List<Reply> replys;
+	
+	public void initdata(){
+		upNum = 0;
+		downNum = 0;
+		replyNum = 0;
+		System.out.println("初始化成功");
+	}
+	
+	public Integer increaseUpNum(){
+		return ++upNum;
+	}
+	public Integer increasedownNum(){
+		return ++downNum;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
 	public String getDiscussionId() {
 		return discussionId;

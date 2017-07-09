@@ -4,9 +4,17 @@
 	<select id="findTopTen" resultMap="DiscussionMP">
 		select * from discussion order by up_num limit 0 , 9
 	</select>
+	<select id="findOne" resultMap="DiscussionMP">
+		select * from discussion where discussion_id = #{discussionId}
+	</select>
 	<resultMap type="Discussion" id="DiscussionMP">
 		<id column="discussion_id" property="discussionId"/>
 		<result column="user_id" property="userId"/>
+		<result column="create_time" property="createTime"/>
+		<result column="last_update_time" property="lastUpdateTime"/>
+		<result column="up_num" property="upNum"/>
+		<result column="down_num" property="downNum"/>
+		<result column="reply_num" property="replyNum"/>
 	</resultMap>
 	
 </mapper>

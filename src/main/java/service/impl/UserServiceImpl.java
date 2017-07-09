@@ -63,4 +63,14 @@ public class UserServiceImpl implements UserService {
 		}
 		
 	}
+
+	@Override
+	public User findUserByNameAndPassword(String name, String password) {
+		return userMapper.findUserByNameAndPassword(name,password);
+	}
+
+	@Override
+	public Object findUserByName(String name) {
+		return userMapper.findUserByName(name);
+	}
 }

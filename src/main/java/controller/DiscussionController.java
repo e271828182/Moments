@@ -12,13 +12,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import pojo.Discussion;
+import pojo.Reply;
+import pojo.User;
 import service.DiscussionService;
+import service.ReplyService;
 
 @Controller
-public class IndexController {
+public class DiscussionController {
 	
 	@Autowired
 	DiscussionService discussionService;
+	
+	@Autowired
+	ReplyService replyService;
 
 	@RequestMapping("/")
 	public String toIndex(Model model){
@@ -27,37 +33,47 @@ public class IndexController {
 		return "thymeleaf/index";
 	}
 	
-	@RequestMapping("/index/toDiscussion")
+	@RequestMapping("/discussion/toDiscussion")
 	public String toDiscussion( String discussionId,
 								Model model){
 		Discussion discussion = discussionService.findOne(discussionId);
-		model.addAttribute("discussion",discussion);		
+		model.addAttribute("discussion",discussion);
+		List<Reply> replys = replyService.findAll(discussionId);
+		model.addAttribute("replys",replys);
 		return "thymeleaf/showDiscussion";
 	}
 	
-	@RequestMapping("/index/toCreate")
-	public String toCreate(Model model){
+	@RequestMapping("/discussion/toCreate")
+	public String toCreate(Model model,
+							HttpSession session){
+		User user = (User)session.getAttribute("userMsg");
+		if(user==null) return "redirect:/toLogin";
 		model.addAttribute("discussionId",UUID.randomUUID().toString());
 		return "thymeleaf/createDiscussion";
 	}
 	
-	@RequestMapping("/index/toCheck")
+	@RequestMapping("/discussion/toCheck")
 	public String toCheck(Discussion discussion,
 							Model model,
 							HttpSession session){
 		if(discussion.getCreateTime()==null)discussion.setCreateTime(new Date());
 		discussion.setLastUpdateTime(new Date());
-		discussion.setUserId("0001");
+		User user = (User)session.getAttribute("userMsg");
+		if(user==null) return "redirect:/toLogin";
+		
+		discussion.setUserId(user.getUserId());
+		discussion.setStatus(0);
+		discussion.initdata();
+		discussionService.save(discussion);
 		model.addAttribute("discussion",discussion);
-		session.setAttribute("discussion", discussion);
 		return "thymeleaf/previewDiscussion";
 	}
 	
-	@RequestMapping("/index/toSave")
-	public String toSave(HttpSession session){
-		Discussion discussion = (Discussion)session.getAttribute("discussion");
-		discussionService.save(discussion);
-		session.removeAttribute("discussion");
+	@RequestMapping("/discussion/toSave")
+	public String toSave(String discussionId){
+		Discussion discussion = discussionService.findOne(discussionId);
+		discussion.setStatus(1);
+		discussionService.update(discussion);
 		return "redirect:/";
 	}
 	

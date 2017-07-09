@@ -4,9 +4,9 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="../../css/reset.css"/>
-<link rel="stylesheet" href="../../css/base.css"/>
-<link rel="stylesheet" href="../../css/index.css"/>
+<link rel="stylesheet" href="/css/reset.css"/>
+<link rel="stylesheet" href="/css/base.css"/>
+<link rel="stylesheet" href="/css/index.css"/>
 
 <title>朋友社区</title>
 
@@ -18,9 +18,15 @@
                 <a href="#" class="fav-icon">收藏star论坛</a>
             </div>
             <div class="login fr">
-                欢迎来到star论坛!&nbsp;&nbsp;
-                <a href="#" id="login">[登陆]</a>
-                <a href="#" id="register">[免费注册]</a>
+            <div th:if="${session.userMsg!=null}">
+	            <div th:text="${session.userMsg.name}"></div>
+	            <div><a th:href="@{/homePage}">个人主页</a></div>
+            </div>
+               欢迎来到star论坛!&nbsp;&nbsp;
+                <div th:if="${session.userMsg==null}">
+	                <a href="/toLogin" id="login">[登陆]</a>
+	                <a href="/toRegister" id="register">[免费注册]</a>                
+                </div>
             </div>
         </div>
     </div>
@@ -46,10 +52,10 @@
             </div>
         </div>
     </div>
-    <div><a th:href="@{/index/toCreate}">创建讨论</a></div>
+    <div><a th:href="@{/discussion/toCreate}">创建讨论</a></div>
     <div>top10</div>
    <div th:each="discussion:${discussions}">
-   	<a th:href="@{/index/toDiscussion(discussionId=${discussion.discussionId})}" th:text="${discussion.name}"></a>
+   	<a th:href="@{/discussion/toDiscussion(discussionId=${discussion.discussionId})}" th:text="${discussion.name}"></a>
    </div>
 </body>
 </html>

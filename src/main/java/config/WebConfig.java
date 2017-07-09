@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
@@ -113,12 +114,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	/**
 	 * 配置集中转发页面
 	 */
-//	@Override
-//	public void addViewControllers(ViewControllerRegistry registry) {
-//		registry.addViewController("/").setViewName("thymeleaf/index");
-//		registry.addViewController("/tologin").setViewName("thymeleaf/login");
-//		registry.addViewController("/toAdd").setViewName("thymeleaf/userAdd");
-//	}
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/toLogin").setViewName("thymeleaf/login");
+		registry.addViewController("/toRegister").setViewName("thymeleaf/register");
+	}
 	/**
 	 * 全局异常处理
 	 * @return
@@ -129,6 +129,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //	}
 	
 	/**静态资源 DispatcherServlet配置了映射“/”，拦截所有的路径交给handeradapter处理，导致静态资源无法访问
+	 * (如果静态资源在WEB-INF下面，以下配置仍然无效，必须手动转发)
+	 * 
 	 * 方式一：启用默认servlet处理静态资源
 	 */
 	@Override
@@ -143,8 +145,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //	@Override
 //	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //		registry.addResourceHandler("/WEB-INF/*/**")
-//		.addResourceLocations("/WEB-INF/js")
-//		.addResourceLocations("/WEB-INF/css");
+//		.addResourceLocations("/WEB-INF/js/jquery-3.2.1.min.js");
 //	}
 
 	/**

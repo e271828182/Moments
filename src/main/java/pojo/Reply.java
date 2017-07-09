@@ -1,15 +1,38 @@
 package pojo;
 
+import java.util.Date;
 
 public class Reply {
 
 	private String replyId;
 	
+	private String discussionId;
+	
+	private String userId;
+	
 	private String body;
 	
-	private String createTime;
+	private Date createTime;
 	
 	private Reply parentReply;
+	
+	
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getDiscussionId() {
+		return discussionId;
+	}
+
+	public void setDiscussionId(String discussionId) {
+		this.discussionId = discussionId;
+	}
 
 	public String getReplyId() {
 		return replyId;
@@ -27,11 +50,11 @@ public class Reply {
 		this.body = body;
 	}
 
-	public String getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 

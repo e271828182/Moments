@@ -31,4 +31,28 @@ public class DiscussionServiceImpl implements DiscussionService {
 
 	}
 
+	@Override
+	public void update(Discussion discussion) {
+		discussionMapper.update(discussion);
+		
+	}
+
+	@Override
+	public Integer upNumAdd(String discussionId) {
+		Discussion discussion = findOne(discussionId);
+		Integer UpNum = discussion.increaseUpNum();
+		update(discussion);
+		return UpNum;
+	}
+
+	@Override
+	public Integer downNumAdd(String discussionId) {
+		Discussion discussion = findOne(discussionId);
+		Integer downNum = discussion.increasedownNum();
+		update(discussion);
+		return downNum;
+	}
+
+	
+
 }
