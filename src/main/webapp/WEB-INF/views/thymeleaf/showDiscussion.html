@@ -105,14 +105,28 @@ $(document).ready(function(){
 	    	  $('#output').attr("type","hidden");
 	      }
 
-	      $('#stop').click(function() {sock.close()});
+	      var flag;
+	      $('#stop').click(function() {
+	    	  if(flag==true){
+	    	  sock.close();
+	    	//  this.html("启用推送消息"); 
+	    	  flag = false;
+	    	  }else{
+				sock=new SockJS("[[@{/notify}]]"); 
+			//	this.html("停用推送消息"); 
+				flag = true;
+	    	  }
+	    	  
+	    	  
+	      });
 	      
-	      $('#start').click(function() {sock.send("准备就绪")});
+	      $('#start').click(function() {sock.send("[(${session.userMsg})]")});
 	      
-	      window.onbeforeunload = function() {
+ 	/*       window.onbeforeunload = function() {
               sock.close();
-          };
-	
+              $("#showMessage").text("推送已经取消");
+          }; */
+	 
 	
 	
 	
