@@ -5,6 +5,6 @@
 		<property name="driverClass">com.mysql.jdbc.Driver</property>
 		<property name="jdbcUrl">jdbc:mysql:///moments?useUnicode=true&amp;characterEncoding=utf-8</property>
 		<property name="user">root</property>
-		<property name="password">root</property>
+		<property name="password"></property>
 	</default-config>
 </c3p0-config>
