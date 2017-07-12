@@ -18,15 +18,15 @@
 				<td>pic</td>
 				<td>删除</td>
 			</tr>
-			<tr th:each="list:${usersLise}">
-				<td><span th:text="${list.id}"></span><input type="checkbox" name="id" th:value="${list.id}"/></td>
-				<td th:text="${list.name}"></td>
-				<td th:text="${list.sex}"></td>
-				<td th:text="${list.age}"></td>
- 				<td th:text="${#dates.format(list.birthday,'yyyy-MM-dd')}"></td>
-				<td><img th:src="@{/img(id=${list.id})}"alt="照片" width="100px" height="100px"></td>
-				<td><a th:href="@{/delete(id=${list.id})}">删除</a>
-				<a th:href="@{/toEdit(id=${list.id})}">修改</a></td>
+			<tr th:each="user,userStat:${usersLise}">
+				<td><span th:text="${userStat.count}"></span><input type="checkbox" name="userId" th:value="${user.userId}"/></td>
+				<td th:text="${user.name}"></td>
+				<td th:text="${user.sex}"></td>
+				<td th:text="${user.age}"></td>
+ 				<td th:text="${#dates.format(user.birthday,'yyyy-MM-dd')}"></td>
+				<td><img th:src="@{/img(userId=${user.userId})}"alt="照片" width="100px" height="100px"></td>
+				<td><a th:href="@{/delete(iuserId=${user.userId})}">删除</a>
+				<a th:href="@{/toEdit(userId=${user.userId})}">修改</a></td>
 			</tr>
 		</table>
 		<a th:href="@{/toAdd}">增加</a>

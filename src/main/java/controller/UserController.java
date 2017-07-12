@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -48,18 +49,18 @@ public class UserController {
 	}
 	
 	@RequestMapping("/delete")
-	public String delete(@RequestParam String id, @Value(value = "${user.pic.filepath}") String path){
-		User user = userService.findOne(id);
+	public String delete(@RequestParam String userId, @Value(value = "${user.pic.filepath}") String path){
+		User user = userService.findOne(userId);
 		File oldfile = new File(path+user.getPic());
 		if(oldfile.exists()) oldfile.delete();
 		
-		userService.deleteUser(id);
+		userService.deleteUser(userId);
 		return "forward:/list";
 	}
 	
 	@RequestMapping("/toEdit")
-	public ModelAndView toEdit(ModelAndView model,@RequestParam String id){
-		User user = userService.findOne(id);
+	public ModelAndView toEdit(ModelAndView model,@RequestParam String userId){
+		User user = userService.findOne(userId);
 		model.addObject("user", user);
 		model.setViewName("thymeleaf/userEdit");
 		return model;
@@ -73,8 +74,12 @@ public class UserController {
 		String newFileName = handelPic(user_pic,path);
 		if(!"".equals(newFileName) && newFileName!=null){
 			user = userService.findOne(user.getUserId());
-			File oldfile = new File(path+user.getPic());
-			if(oldfile.exists()) oldfile.delete();
+			String oldPic = user.getPic();
+			
+			if(!StringUtils.isEmpty(oldPic)){
+				File oldfile = new File(path+oldPic);
+				if(oldfile.exists()) oldfile.delete();
+			}
 			user.setPic(newFileName);
 			userService.updateUser(user);			
 		}
@@ -109,9 +114,6 @@ public class UserController {
 		
 		if(bindingResult.hasErrors()){
 			List<ObjectError> allErrors = bindingResult.getAllErrors();
-			for(ObjectError o : allErrors){
-				System.out.println(o.getDefaultMessage());
-			}
 			model.addAttribute("allErrors", allErrors);
 			return "thymeleaf/userAdd";
 		}
@@ -120,6 +122,7 @@ public class UserController {
 			String newFileName = handelPic(user_pic,path);
 			user.setPic(newFileName);
 		}
+		user.setUserId(UUID.randomUUID().toString());
 		userService.addUser(user);
 		return "redirect:/list";
 	}
@@ -127,8 +130,8 @@ public class UserController {
 	@RequestMapping("/img")
 	public void img(HttpServletResponse response,
 						@Value(value = "${user.pic.filepath}") String path,
-						@RequestParam String id){
-		User user = userService.findOne(id);
+						@RequestParam String userId){
+		User user = userService.findOne(userId);
 		if(user==null || user.getPic()==null || "".equals(user.getPic()))return;
 		response.setContentType("image/jpeg");
 		try(FileInputStream in = new FileInputStream(path+user.getPic());
@@ -146,7 +149,7 @@ public class UserController {
 	@RequestMapping("/download")
 	public void download(HttpServletResponse response,
 						@Value(value = "${user.pic.filepath}") String path,
-						@RequestParam(value="id", required=false) Integer[] ids) throws IOException{
+						@RequestParam(value="userId", required=false) String[] ids) throws IOException{
 		HSSFWorkbook excel = userService.getExcelByIds(ids,path);
 		if(excel!=null){
 			response.setContentType("application/octet-stream; charset=utf-8");

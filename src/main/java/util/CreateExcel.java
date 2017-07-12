@@ -59,7 +59,7 @@ public class CreateExcel<T> {
 			String name = pd.getName();
 			if (name.equals("class")) continue;
 			//设置确保id在首列
-			if (name.equals("id")){
+			if (pd.getName().endsWith("id")||pd.getName().endsWith("Id")){
 				cell = row.createCell(0);
 				cell.setCellValue(name);
 				continue;
@@ -79,7 +79,8 @@ public class CreateExcel<T> {
 			for(PropertyDescriptor pd : pds){
 				if(pd.getName().equals("class")) continue;
 				//设置确保id在首列
-				if(pd.getName().equals("id")){
+				if(pd.getName().endsWith("id")||pd.getName().endsWith("Id")){
+					
 					Method method = pd.getReadMethod();
 					cell = row.createCell(0);
 					Object result = method.invoke(t);

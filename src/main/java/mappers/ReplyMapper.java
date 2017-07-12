@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import pojo.Reply;
+import pojo.User;
 
 public interface ReplyMapper {
 
@@ -18,11 +19,28 @@ public interface ReplyMapper {
 	@Select("select * from reply where discussion_id=#{discussionId} order by create_time ")
 	@Results({
 		@Result(id=true, column="reply_id", property="replyId"),
-		@Result(id=true, column="discussion_id", property="discussionId"),
-		@Result(id=true, column="pid", property="parentReply.replyId"),
-		@Result(id=true, column="user_id", property="userId"),
-		@Result(id=true, column="create_time", property="createTime")
+		@Result( column="discussion_id", property="discussionId"),
+		@Result( column="pid", property="parentReply.replyId"),
+		@Result( column="user_id", property="userId"),
+		@Result( column="create_time", property="createTime")
 	})
 	List<Reply> findAll(String discussionId);
+
+	@Select("select * from reply where reply_id=#{replyId}")
+	@Results({
+		@Result(id=true, column="reply_id", property="replyId"),
+		@Result( column="discussion_id", property="discussionId"),
+		@Result( column="pid", property="parentReply.replyId"),
+		@Result( column="user_id", property="userId"),
+		@Result( column="create_time", property="createTime")
+	})
+	Reply findOne(String replyId);
+
+//	@Select("select * from reply where reply_id=#{replyId}")
+//	List<User> findNotifyUsers(String replyId);
+
+	
+
+
 
 }

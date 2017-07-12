@@ -1,9 +1,20 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <meta charset="UTF-8">
 <title>讨论页面</title>
+<!-- <script type="text/javascript" src="../../../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../../js/sockjs.min.js"></script>
+<script type="text/javascript" src="../../../css/bootstrap-switch.min.css"></script>
+<script type="text/javascript" src="../../../css/bootstrap.min.css"></script>
+<script type="text/javascript" src="../../../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../../js/bootstrap-switch.min.js"></script>
+<script type="text/javascript" src="../../../css/main.css"></script>
+<script type="text/javascript" src="../../../css/highlight.css"></script>
+<script type="text/javascript" src="../../../js/highlight.js"></script>
+<script type="text/javascript" src="../../../js/main.js"></script> -->
 </head>
 <body>
 	<div th:if="${session.userMsg!=null}">
@@ -34,6 +45,20 @@
 		</table>
 		<button id="button1" >顶</button>
 		<button id="button2" >踩</button>
+	
+		
+		<div class="row" sec:authorize="hasRole('ROLE_ADMIN')">
+		    <div class="col-md-10 col-md-offset-2">
+		        <h2>User Has Role Admin</h2>
+		    </div>
+		</div>
+		<div class="row" sec:authorize="hasAuthority('ADMIN')">
+		    <div class="col-md-10 col-md-offset-2">
+		        <h2>User Has Authority Admin</h2>
+		    </div>
+		</div>
+
+		
 		<div th:each="reply:${replys}">
 			<table>
 				<tr>
@@ -44,14 +69,23 @@
 					<td colspan="2" th:text="${reply.body}"></td>
 				</tr>
 			</table>
+			<button id="replyParentreplybutton">回复回复</button>
+			<form id ="replyParentreply" th:action="@{/reply/add}" method="post">
+				<input type="hidden" name="userId" th:value="${session.userMsg==null?'':(session.userMsg.userId==null?'':session.userMsg.userId)}">
+				<input type="hidden" name="discussionId" th:value="${discussion.discussionId}">
+				<input type="hidden" name="parentReply.replyId" th:value="${reply.replyId}">
+				<textarea name="body" th:value="${reply==null?'':(reply.body==null?'':reply.body)}"></textarea>
+				<input type="submit" value="回复回复">
+			</form>
 		</div>
 		
-		<form id="from" th:action="@{/reply/add}" method="post">
+		<form id="replydiscussion" th:action="@{/reply/add}" method="post">
 			<input type="hidden" name="userId" th:value="${session.userMsg==null?'':(session.userMsg.userId==null?'':session.userMsg.userId)}">
 			<input type="hidden" name="discussionId" th:value="${discussion.discussionId}">
 			<textarea name="body" th:value="${reply==null?'':(reply.body==null?'':reply.body)}"></textarea>
 			<input type="submit" value="回复">
 		</form>
+
 		
 		<button id="stop">不再推送消息</button>
 		<div id="showMessage"></div>
@@ -63,7 +97,9 @@
 
 <script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/sockjs.min.js}"></script>
+
 <script type="text/javascript">
+
 $(document).ready(function(){
 	
 	$("#button1").click(function(){
@@ -84,8 +120,15 @@ $(document).ready(function(){
 			  });
 		  }
 	  });
-		  
-	var sock = new SockJS("[[@{/notify}]]");
+	 ///路径变量拼接方式{userId}/{discussionId+replyId}/notify，变量长度是36位
+	 
+		 
+		 if("[(${session.userMsg})]"==""){
+			 alert("请先登录");
+			 return;
+		 }
+		 
+		 var sock = new SockJS("/"+"[(${session.userMsg==null?"":session.userMsg.userId})]"+"/"+"[(${discussion.discussionId})]"+"/notify");
 
 	      sock.onopen = function() {
 	    	  sock.send("准备就绪");
@@ -104,8 +147,12 @@ $(document).ready(function(){
 	      function deleteMsg() {
 	    	  $('#output').attr("type","hidden");
 	      }
+		 
+		 
+	 
+	
 
-	      var flag;
+	 /*      var flag;
 	      $('#stop').click(function() {
 	    	  if(flag==true){
 	    	  sock.close();
@@ -118,9 +165,10 @@ $(document).ready(function(){
 	    	  }
 	    	  
 	    	  
-	      });
+	      }); */
 	      
 	      $('#start').click(function() {sock.send("[(${session.userMsg})]")});
+	  //    $('#replyParentreplybutton').click(function() {$('#replyParentreply').attr("hidden","false")});
 	      
  	/*       window.onbeforeunload = function() {
               sock.close();
@@ -159,6 +207,7 @@ $(document).ready(function(){
 	  
 		  
 });
+
 
 </script>
 </html>

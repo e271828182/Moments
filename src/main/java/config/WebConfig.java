@@ -19,7 +19,6 @@ import org.springframework.format.datetime.DateFormatter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.accept.ContentNegotiationManager;
@@ -36,6 +35,7 @@ import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.standard.StandardDialect;
@@ -53,8 +53,7 @@ import viewResolver.XlsViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages={"controller","marcopolo","controller.impl"})
-@EnableScheduling
+@ComponentScan(basePackages={"controller"})
 @PropertySource("classpath:config.properties")
 public class WebConfig extends WebMvcConfigurerAdapter {
 	
@@ -118,6 +117,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/toLogin").setViewName("thymeleaf/login");
 		registry.addViewController("/toRegister").setViewName("thymeleaf/register");
+		registry.addViewController("/toAdd").setViewName("thymeleaf/userAdd");
 	}
 	/**
 	 * 全局异常处理
@@ -194,6 +194,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public SpringTemplateEngine templateEngine(ServletContextTemplateResolver templateResolver) {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(templateResolver);
+		templateEngine.addDialect(new SpringSecurityDialect());
+//		 Set<IDialect> dialects = new LinkedHashSet<>(2);
+//	        dialects.add(new SpringSecurityDialect());
+//	        dialects.add(new Java8TimeDialect());
+//	        templateEngine.setAdditionalDialects(dialects);
 		return templateEngine;
 	}
 

@@ -3,6 +3,7 @@ package service;
 import java.util.List;
 
 import pojo.Discussion;
+import pojo.User;
 
 public interface DiscussionService {
 
@@ -22,6 +23,11 @@ public interface DiscussionService {
 
 
 	Integer downNumAdd(String discussionId);
+
+
+	User findUserByDiscussionId(String discussionId);
+
+
 
 
 

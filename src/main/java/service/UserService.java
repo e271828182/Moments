@@ -12,9 +12,9 @@ public interface UserService {
 	public List<User> findAllUsers();
 
 	@Transactional
-	public void deleteUser(String id);
+	public void deleteUser(String userId);
 
-	public User findOne(String id);
+	public User findOne(String userId);
 
 	@Transactional
 	public void updateUser(User user);
@@ -22,9 +22,9 @@ public interface UserService {
 	@Transactional
 	public void addUser(User user);
 
-	public List<User> findUserListByIds(Integer[] ids);
+	public List<User> findUserListByIds(String[] ids);
 
-	public HSSFWorkbook getExcelByIds(Integer[] ids,String... path);
+	public HSSFWorkbook getExcelByIds(String[] ids,String... path);
 
 	public User findUserByNameAndPassword(String name, String password);
 

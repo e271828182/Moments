@@ -17,13 +17,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
     {
         builder
                 .inMemoryAuthentication()
-                        .withUser("John")
-                        .password("password")
+                        .withUser("好汉1")
+                        .password("123")
                         .authorities("USER")
                     .and()
-                        .withUser("Margaret")
-                        .password("green")
+                        .withUser("好汉2")
+                        .password("123")
                         .authorities("USER", "ADMIN");
+    	
     }
 
     @Override

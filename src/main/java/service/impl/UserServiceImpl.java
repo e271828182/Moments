@@ -47,12 +47,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> findUserListByIds(Integer[] ids) {
+	public List<User> findUserListByIds(String[] ids) {
 		return userMapper.findUserListByIds(ids);
 	}
 
 	@Override
-	public HSSFWorkbook getExcelByIds(Integer[] ids,String... pic_path) {
+	public HSSFWorkbook getExcelByIds(String[] ids,String... pic_path) {
 		List<User> userlist = ids==null?findAllUsers():findUserListByIds(ids);
 		CreateExcel<User> excel = new CreateExcel<>(User.class);
 		try {

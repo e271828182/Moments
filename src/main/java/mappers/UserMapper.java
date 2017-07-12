@@ -20,14 +20,14 @@ public interface UserMapper {
 	public List<User> findAllUsers();
 
 	@Delete("delete from usertable where user_id = #{userId}")
-	public void deleteUser(String id);
+	public void deleteUser(String userId);
 
 	
 	@Select("select * from usertable where user_id = #{userId}")
 	@Results({
 		@Result(id=true, column="user_id", property="userId"),			
 	})
-	public User findOne(String id);
+	public User findOne(String userId);
 
 	@Update("update usertable set name = #{name}, nickname=#{nickname}, password=#{password}, sex = #{sex}, age = #{age}, "
 			+ "birthday = #{birthday}, telephone = #{telephone}, email = #{email}, pic = #{pic} where user_id = #{userId}")
@@ -37,7 +37,7 @@ public interface UserMapper {
 			+ "values(#{userId}, #{name}, #{nickname}, #{password}, #{sex}, #{age}, #{birthday}, #{telephone}, #{email}, #{pic})")
 	public void addUser(User user);
 
-	public List<User> findUserListByIds(Integer[] ids);
+	public List<User> findUserListByIds(String[] ids);
 
 	@Select("select * from usertable where name = #{name} and password = #{password}")
 	@Results({
