@@ -13,8 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -30,6 +28,7 @@ public class NotifyHandler extends AbstractWebSocketHandler {
 	@Autowired
 	ReplyService replyService;
 	
+	
 	@Autowired
 	DiscussionService discussionService;
 
@@ -37,7 +36,7 @@ public class NotifyHandler extends AbstractWebSocketHandler {
 	
 	public static ConcurrentHashMap<String,WebSocketSession> webSocketMap = new ConcurrentHashMap<>();
 	
-	public static ConcurrentHashMap<String,String> peindingMessageMap = new ConcurrentHashMap<>();
+	public static ConcurrentHashMap<String,List<String>> peindingMessageMap = new ConcurrentHashMap<>();
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -47,7 +46,10 @@ public class NotifyHandler extends AbstractWebSocketHandler {
 		
 		//用户登录时推送挂起的消息
 		if(peindingMessageMap.get(userId)!=null){
-			session.sendMessage(new TextMessage(peindingMessageMap.get(userId)));
+			for (String message : peindingMessageMap.get(userId)) {
+				
+				session.sendMessage(new TextMessage(message));
+			}
 			peindingMessageMap.remove(userId);
 		}
 	}
@@ -79,7 +81,10 @@ public class NotifyHandler extends AbstractWebSocketHandler {
 			}else{
 				
 				//未发送的消息存到map中,下次用户登录则推送
-				peindingMessageMap.put(user.getUserId(), notifyMessage);
+				List<String> messages = peindingMessageMap.get(user.getUserId());
+				if(messages==null) messages = new ArrayList<String>();
+				messages.add(notifyMessage);
+				peindingMessageMap.put(user.getUserId(), messages);
 			}
 		}
 		

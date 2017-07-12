@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import controller.validation.UserLoginValidGroup;
 import controller.validation.UserRegisterValidGroup;
 
@@ -13,12 +15,12 @@ public class User {
 	private String userId;
 
 	@Size(min=2,max=30,message="{user.name.length.error}",groups=UserLoginValidGroup.class)
-	@NotNull(message="{user.name.isnull}",groups=UserLoginValidGroup.class)
+	@NotBlank(message="{user.name.isnull}",groups=UserLoginValidGroup.class)
     private String name;
 	
 	private String nickname;
 	
-	@NotNull(message="{user.password.isnull}",groups=UserLoginValidGroup.class)
+	@NotBlank(message="{user.password.isnull}",groups=UserLoginValidGroup.class)
 	private String password;
 
     private String sex;

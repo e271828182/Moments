@@ -19,6 +19,14 @@
 
 </head>
 <body>
+<div th:if="${allErrors!=null}">
+	<div th:each="error:${allErrors}">
+		<div th:text="${error.defaultMessage}"></div>
+	</div>
+</div>
+
+
+
 	<form id="form" th:action="@{/login}" method="post" onsubmit="return submitcheck()">
 		<table>
 			<tr>

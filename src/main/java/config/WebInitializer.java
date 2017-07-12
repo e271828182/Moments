@@ -8,6 +8,7 @@ import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import security.SecurityConfiguration;
 import websocket.WebSocketConfig;
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -23,7 +24,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class<?>[] { RootContextConfig.class };
+		return new Class<?>[] { RootContextConfig.class ,SecurityConfiguration.class};
 	}
 
 	@Override

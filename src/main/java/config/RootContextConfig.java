@@ -34,7 +34,7 @@ import security.SecurityConfiguration;
 @EnableTransactionManagement
 @EnableScheduling
 @EnableAsync(proxyTargetClass = true)
-@Import(SecurityConfiguration.class)
+//@Import(SecurityConfiguration.class)
 public class RootContextConfig implements AsyncConfigurer, SchedulingConfigurer {
 	
 	@Bean

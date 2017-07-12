@@ -47,17 +47,17 @@
 		<button id="button2" >踩</button>
 	
 		
-		<div class="row" sec:authorize="hasRole('ROLE_ADMIN')">
+		<div class="row" sec:authorize="hasRole('USER')">
 		    <div class="col-md-10 col-md-offset-2">
 		        <h2>User Has Role Admin</h2>
 		    </div>
 		</div>
-		<div class="row" sec:authorize="hasAuthority('ADMIN')">
+		<div class="row" sec:authorize="hasAuthority('USER')">
 		    <div class="col-md-10 col-md-offset-2">
 		        <h2>User Has Authority Admin</h2>
 		    </div>
 		</div>
-		<div class="row" sec:authorize="hasRole('管理员')">
+		<div class="row" sec:authorize="hasRole('USER')">
 		    <div class="col-md-10 col-md-offset-2">
 		        <h2>User Has Role Admin</h2>
 		    </div>

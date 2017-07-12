@@ -8,7 +8,9 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -20,10 +22,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,7 +42,6 @@ import controller.validation.UserLoginValidGroup;
 import controller.validation.UserRegisterValidGroup;
 import exception.CustomException;
 import pojo.User;
-import security.CustomAuthenticationProvider;
 import service.UserService;
 
 /**
@@ -60,6 +58,9 @@ public class LoginController {
     
     @Autowired
 	private UserService userService;
+    
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     /**
      * 
@@ -117,7 +118,7 @@ public class LoginController {
     	try {
 			Authentication AuthenticationRequest = new UsernamePasswordAuthenticationToken(user.getName(), user.getPassword());
 			
-			AuthenticationManager authenticationManager = new CustomAuthenticationProvider();
+//			AuthenticationManager authenticationManager = new CustomAuthenticationProvider();
 			
 			Authentication authenticate = authenticationManager.authenticate(AuthenticationRequest);
 			
@@ -125,13 +126,12 @@ public class LoginController {
 			
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
-			model.addAttribute("allErrors", new String[]{"对不起，用户名或密码不正确！"});
+			List<ObjectError> allErrors = new ArrayList<>();
+			allErrors.add(new ObjectError("登陆提示",e.getMessage()));
+			model.addAttribute("allErrors", allErrors);
     		return "thymeleaf/login";
 		}
-    	
-    	
-    	 System.out.println("Successfully authenticated. Security context contains: " +
-                 SecurityContextHolder.getContext().getAuthentication());
+
     	
     	
     	
