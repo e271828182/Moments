@@ -18,7 +18,7 @@ public class User {
 	
 	private String nickname;
 	
-	@NotNull(message="{user.birthday.isnull}",groups=UserLoginValidGroup.class)
+	@NotNull(message="{user.password.isnull}",groups=UserLoginValidGroup.class)
 	private String password;
 
     private String sex;

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +19,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +43,7 @@ import controller.validation.UserLoginValidGroup;
 import controller.validation.UserRegisterValidGroup;
 import exception.CustomException;
 import pojo.User;
+import security.CustomAuthenticationProvider;
 import service.UserService;
 
 /**
@@ -103,12 +113,37 @@ public class LoginController {
     		model.addAttribute("allErrors", new String[]{"对不起，验证码不正确！"});
     		return "thymeleaf/login";
     	}
-    	User user2 = userService.findUserByNameAndPassword(user.getName(),user.getPassword());
-    	if(user2==null){
-    		model.addAttribute("allErrors", new String[]{"对不起，用户名或密码不正确！"});
+    	
+    	try {
+			Authentication AuthenticationRequest = new UsernamePasswordAuthenticationToken(user.getName(), user.getPassword());
+			
+			AuthenticationManager authenticationManager = new CustomAuthenticationProvider();
+			
+			Authentication authenticate = authenticationManager.authenticate(AuthenticationRequest);
+			
+			SecurityContextHolder.getContext().setAuthentication(authenticate);
+			
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
+			model.addAttribute("allErrors", new String[]{"对不起，用户名或密码不正确！"});
     		return "thymeleaf/login";
-    	}
-    	session.setAttribute("userMsg", user2);
+		}
+    	
+    	
+    	 System.out.println("Successfully authenticated. Security context contains: " +
+                 SecurityContextHolder.getContext().getAuthentication());
+    	
+    	
+    	
+    	
+    	
+    	
+//    	User user2 = userService.findUserByNameAndPassword(user.getName(),user.getPassword());
+//    	if(user2==null){
+//    		model.addAttribute("allErrors", new String[]{"对不起，用户名或密码不正确！"});
+//    		return "thymeleaf/login";
+//    	}
+    	session.setAttribute("userMsg", SecurityContextHolder.getContext().getAuthentication().getCredentials());
     	
     	return "redirect:/";
     }
