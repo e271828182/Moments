@@ -28,6 +28,10 @@ public interface DiscussionService {
 	User findUserByDiscussionId(String discussionId);
 
 
+	
+	void deleteDiscussionByUserId(String userId);
+
+
 
 
 

@@ -12,6 +12,10 @@ public interface ReplyService {
 	List<Reply> findAll(String discussionId);
 
 	List<User> findNotifyUsers(String replyId);
+	
+	void deleteReplyById(String replyId);
+
+	void deleteReplyByUserId(String userId);
 
 
 

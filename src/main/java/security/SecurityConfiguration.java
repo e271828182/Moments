@@ -23,7 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     {
         security
                 .authorizeRequests()
-                	.antMatchers("/","/login").permitAll()
+                	.antMatchers("/","/login","/register","/toRegister","/toLogin").permitAll()
                 	.antMatchers("/captcha-image").permitAll()
                 	.anyRequest().authenticated()
                 .and().formLogin()

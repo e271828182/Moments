@@ -28,6 +28,8 @@ public interface UserService {
 
 	public User findUserByNameAndPassword(String name, String password);
 
-	public Object findUserByName(String name);
+	public User findUserByName(String name);
+
+	public List<User> findAllUsersPages(int pageNum, int pageSize);
 
 }

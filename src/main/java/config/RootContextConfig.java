@@ -1,10 +1,12 @@
 package config;
 
 
+import java.util.Properties;
 import java.util.concurrent.Executor;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -13,7 +15,7 @@ import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -24,9 +26,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.github.pagehelper.PageInterceptor;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import security.SecurityConfiguration;
 
 @Configuration
 @MapperScan(basePackages={"mappers"})
@@ -34,7 +36,6 @@ import security.SecurityConfiguration;
 @EnableTransactionManagement
 @EnableScheduling
 @EnableAsync(proxyTargetClass = true)
-//@Import(SecurityConfiguration.class)
 public class RootContextConfig implements AsyncConfigurer, SchedulingConfigurer {
 	
 	@Bean
@@ -47,6 +48,17 @@ public class RootContextConfig implements AsyncConfigurer, SchedulingConfigurer 
 		 SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		 sessionFactory.setTypeAliasesPackage("pojo");
 		 sessionFactory.setDataSource(dataSource);
+//		 sessionFactory.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
+		 PageInterceptor pageInterceptor = new PageInterceptor();
+		 Properties properties = new Properties();
+		 properties.put("helperDialect", "mysql");
+		 properties.put("reasonable", "true");
+		 properties.put("supportMethodsArguments", "true");
+		 properties.put("params", "countSql");
+		 properties.put("count", "countSql");
+		 properties.put("autoRuntimeDialect", "true");
+		 pageInterceptor.setProperties(properties);
+		 sessionFactory.setPlugins(new Interceptor[]{pageInterceptor});
 		 return sessionFactory.getObject();
 	}
 	

@@ -7,6 +7,12 @@
 	<select id="findOne" resultMap="DiscussionMP">
 		select * from discussion where discussion_id = #{discussionId}
 	</select>
+	
+	<select id="findDiscussionByUserId" resultMap="DiscussionMP">
+		select * from discussion where discussion_id = #{userId}
+	</select>
+	
+		
 	<resultMap type="Discussion" id="DiscussionMP">
 		<id column="discussion_id" property="discussionId"/>
 		<result column="user_id" property="userId"/>

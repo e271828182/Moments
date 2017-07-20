@@ -2,6 +2,7 @@ package mappers;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
@@ -25,6 +26,11 @@ public interface DiscussionMapper {
 	@Update("update discussion set user_id=#{userId}, topic=#{topic}, name=#{name}, body=#{body}, last_update_time=#{lastUpdateTime}, status=#{status},"
 			+ "up_Num=#{upNum}, down_num=#{downNum}, reply_num=#{replyNum} where discussion_id=#{discussionId}")
 	void update(Discussion discussion);
+	
+	List<Discussion> findDiscussionByUserId(String userId);
+
+	@Delete("delete from discussion where discussion_id = #{discussionId}")
+	void deleteDiscussionById(String discussionId);
 
 
 }

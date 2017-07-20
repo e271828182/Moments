@@ -9,6 +9,8 @@
 	<form th:action="@{/download}" method="post">
 		<table border="1">
 			<caption>人员信息列表</caption>
+			<tr><td colspan="3"><a th:href="@{/prepage/pagechange(currpage=${currpage==null?'':currpage})}">上一页</a></td>
+			<td colspan="4"><a th:href="@{/nextpage/pagechange(currpage=${currpage==null?'':currpage})}">下一页</a></td></tr>
 			<tr>
 				<td>id</td>
 				<td>name</td>
@@ -25,7 +27,7 @@
 				<td th:text="${user.age}"></td>
  				<td th:text="${#dates.format(user.birthday,'yyyy-MM-dd')}"></td>
 				<td><img th:src="@{/img(userId=${user.userId})}"alt="照片" width="100px" height="100px"></td>
-				<td><a th:href="@{/delete(iuserId=${user.userId})}">删除</a>
+				<td><a th:href="@{/delete(userId=${user.userId})}">删除</a>
 				<a th:href="@{/toEdit(userId=${user.userId})}">修改</a></td>
 			</tr>
 		</table>

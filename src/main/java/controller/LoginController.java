@@ -43,6 +43,7 @@ import controller.validation.UserRegisterValidGroup;
 import exception.CustomException;
 import pojo.User;
 import service.UserService;
+import util.CustomBCryptPassword;
 
 /**
  * 
@@ -104,22 +105,19 @@ public class LoginController {
     					HttpSession session){
     	if(bindingResult.hasErrors()){
 			List<ObjectError> allErrors = bindingResult.getAllErrors();
-			for(ObjectError o : allErrors){
-				System.out.println(o.getDefaultMessage());
-			}
 			model.addAttribute("allErrors", allErrors);
 			return "thymeleaf/login";
 		}
-    	if(!((String)session.getAttribute(Constants.KAPTCHA_SESSION_KEY)).equals(vcode)){
-    		model.addAttribute("allErrors", new String[]{"对不起，验证码不正确！"});
+    	if(!((String)session.getAttribute(Constants.KAPTCHA_SESSION_KEY)).equalsIgnoreCase(vcode)){
+    		List<ObjectError> allErrors = new ArrayList<>();
+			allErrors.add(new ObjectError("登陆提示","对不起，验证码不正确！"));
+			model.addAttribute("allErrors", allErrors);
     		return "thymeleaf/login";
     	}
     	
     	try {
 			Authentication AuthenticationRequest = new UsernamePasswordAuthenticationToken(user.getName(), user.getPassword());
-			
-//			AuthenticationManager authenticationManager = new CustomAuthenticationProvider();
-			
+						
 			Authentication authenticate = authenticationManager.authenticate(AuthenticationRequest);
 			
 			SecurityContextHolder.getContext().setAuthentication(authenticate);
@@ -132,20 +130,9 @@ public class LoginController {
     		return "thymeleaf/login";
 		}
 
-    	
-    	
-    	
-    	
-    	
-    	
-//    	User user2 = userService.findUserByNameAndPassword(user.getName(),user.getPassword());
-//    	if(user2==null){
-//    		model.addAttribute("allErrors", new String[]{"对不起，用户名或密码不正确！"});
-//    		return "thymeleaf/login";
-//    	}
     	session.setAttribute("userMsg", SecurityContextHolder.getContext().getAuthentication().getCredentials());
     	
-    	return "redirect:/";
+    	return "redirect:/";    
     }
     
     
@@ -158,19 +145,20 @@ public class LoginController {
     					HttpSession session){
     	if(bindingResult.hasErrors()){
 			List<ObjectError> allErrors = bindingResult.getAllErrors();
-			for(ObjectError o : allErrors){
-				System.out.println(o.getDefaultMessage());
-			}
 			model.addAttribute("allErrors", allErrors);
 			return "thymeleaf/register";
 		}
     	if(userService.findUserByName(user.getName()) != null){
-    		model.addAttribute("allErrors", new String[]{"用户名已经存在"});
+    		List<ObjectError> allErrors = new ArrayList<>();
+			allErrors.add(new ObjectError("注册提示","用户名已经存在"));
+			model.addAttribute("allErrors", allErrors);
 			return "thymeleaf/register";
     	}
 
     	if(!password2.equals(user.getPassword())){
-    		model.addAttribute("allErrors", new String[]{"两次密码不一致"});
+    		List<ObjectError> allErrors = new ArrayList<>();
+			allErrors.add(new ObjectError("注册提示","两次密码不一致"));
+			model.addAttribute("allErrors", allErrors);
 			return "thymeleaf/reigster";
     	}
     	if(user_pic!=null){
@@ -179,7 +167,15 @@ public class LoginController {
 		}
     	user.setUserId(UUID.randomUUID().toString());
     	
+    	String encodedPassword = CustomBCryptPassword.getInstance(user.getName()).encode(user.getPassword());
+    	user.setPassword(encodedPassword);
+    	
     	userService.addUser(user);
+    	
+    	Authentication AuthenticationRequest = new UsernamePasswordAuthenticationToken(user.getName(), user.getPassword());
+//		Authentication authenticate = authenticationManager.authenticate(AuthenticationRequest);
+//		SecurityContextHolder.getContext().setAuthentication(AuthenticationRequest);
+    	
     	session.setAttribute("userMsg", user);
     	
     	return "redirect:/";

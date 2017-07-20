@@ -24,10 +24,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.github.pagehelper.PageHelper;
 
 import controller.validation.UserLoginValidGroup;
 import exception.CustomException;
@@ -48,12 +51,30 @@ public class UserController {
 		return model;
 	}
 	
+	@RequestMapping("/{pagemodel}/pagechange")
+	public ModelAndView UserListpage(ModelAndView model,
+									@PathVariable("pagemodel") String pagemodle,
+									@RequestParam(defaultValue="1") int currpage){
+		int pageNum = currpage + ("prepage".equals(pagemodle) ? -1:1);
+		int pageSize = 5;
+		//获取总数，再设置currpage最大值
+		currpage = pageNum<=0?1:pageNum;
+		model.addObject("currpage", currpage);
+		List<User> usersLise = userService.findAllUsersPages(pageNum,pageSize);
+		model.addObject("usersLise", usersLise);
+		model.setViewName("thymeleaf/userList");
+		return model;
+	}
+	
 	@RequestMapping("/delete")
 	public String delete(@RequestParam String userId, @Value(value = "${user.pic.filepath}") String path){
 		User user = userService.findOne(userId);
-		File oldfile = new File(path+user.getPic());
-		if(oldfile.exists()) oldfile.delete();
+		String oldPic = user.getPic();
 		
+		if(!StringUtils.isEmpty(oldPic)){
+			File oldfile = new File(path+oldPic);
+			if(oldfile.exists()) oldfile.delete();
+		}
 		userService.deleteUser(userId);
 		return "forward:/list";
 	}

@@ -2,6 +2,7 @@ package mappers;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -35,6 +36,29 @@ public interface ReplyMapper {
 		@Result( column="create_time", property="createTime")
 	})
 	Reply findOne(String replyId);
+
+	@Select("select * from reply where reply_id=#{replyId} for update ")
+	@Results({
+		@Result(id=true, column="reply_id", property="replyId"),
+		@Result( column="discussion_id", property="discussionId"),
+		@Result( column="pid", property="parentReply.replyId"),
+		@Result( column="user_id", property="userId"),
+		@Result( column="create_time", property="createTime")
+	})
+	Reply findReplyByIdForUpdate(String replyId);
+
+	@Delete("delete from reply where user_id = #{userId}")
+	void deleteReplyById(String replyId);
+
+	@Select("select * from reply where user_id=#{userId}")
+	@Results({
+		@Result(id=true, column="reply_id", property="replyId"),
+		@Result( column="discussion_id", property="discussionId"),
+		@Result( column="pid", property="parentReply.replyId"),
+		@Result( column="user_id", property="userId"),
+		@Result( column="create_time", property="createTime")
+	})
+	List<Reply> findReplysByUserId(String userId);
 
 //	@Select("select * from reply where reply_id=#{replyId}")
 //	List<User> findNotifyUsers(String replyId);

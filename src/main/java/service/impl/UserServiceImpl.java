@@ -6,8 +6,14 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
+import mappers.DiscussionMapper;
+import mappers.ReplyMapper;
 import mappers.UserMapper;
 import pojo.User;
+import service.DiscussionService;
+import service.ReplyService;
 import service.UserService;
 import util.CreateExcel;
 
@@ -17,20 +23,34 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
+	@Autowired
+	ReplyMapper replyMapper;
+	
+	@Autowired
+	ReplyService replyService;
+	
+	@Autowired
+	DiscussionMapper discussionMapper;
+	
+	@Autowired
+	DiscussionService discussionService;
+	
 	@Override
 	public List<User> findAllUsers() {
 		return userMapper.findAllUsers();
 	}
 
 	@Override
-	public void deleteUser(String id) {
-		userMapper.deleteUser(id);
+	public void deleteUser(String userId) {
+		discussionService.deleteDiscussionByUserId(userId);
+		replyService.deleteReplyByUserId(userId);
+		userMapper.deleteUser(userId);
 		
 	}
 
 	@Override
-	public User findOne(String id) {
-		return userMapper.findOne(id);
+	public User findOne(String userId) {
+		return userMapper.findOne(userId);
 		
 	}
 
@@ -70,7 +90,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Object findUserByName(String name) {
+	public User findUserByName(String name) {
 		return userMapper.findUserByName(name);
+	}
+
+	@Override
+	public List<User> findAllUsersPages(int pageNum,int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		return userMapper.findAllUsers();
 	}
 }

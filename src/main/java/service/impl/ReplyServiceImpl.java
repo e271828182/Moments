@@ -47,6 +47,24 @@ public class ReplyServiceImpl implements ReplyService {
 		}
 		return users;
 	}
+
+	@Override
+	public void deleteReplyById(String replyId) {
+		Reply reply = replyMapper.findReplyByIdForUpdate(replyId);
+		if(reply.getParentReply()!=null){
+			deleteReplyById(reply.getParentReply().getReplyId());
+		}
+		replyMapper.deleteReplyById(reply.getReplyId());
+		
+	}
+
+	@Override
+	public void deleteReplyByUserId(String userId) {
+		List<Reply> replys = replyMapper.findReplysByUserId(userId);
+		for (Reply reply : replys) {
+			deleteReplyById(reply.getReplyId());
+		}
+	}
 	
 	
 

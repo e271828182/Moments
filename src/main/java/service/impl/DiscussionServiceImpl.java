@@ -4,15 +4,17 @@ package service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import mappers.DiscussionMapper;
+import mappers.ReplyMapper;
 import mappers.UserMapper;
 import pojo.Discussion;
+import pojo.Reply;
 import pojo.User;
 import service.DiscussionService;
+import service.ReplyService;
 
 @Service
 public class DiscussionServiceImpl implements DiscussionService {
@@ -22,6 +24,11 @@ public class DiscussionServiceImpl implements DiscussionService {
 	@Autowired
 	private UserMapper userMapper;
 
+	@Autowired
+	ReplyMapper replyMapper;
+	
+	@Autowired
+	ReplyService replyService;
 	@Override
 	public List<Discussion> findTopTen() {
 		return discussionMapper.findTopTen();
@@ -71,6 +78,23 @@ public class DiscussionServiceImpl implements DiscussionService {
     public void deleteStaleDiscussions(){
 		System.out.println("定时执行成功");
     }
+
+	@Override
+	public void deleteDiscussionByUserId(String userId) {
+		List<Discussion> discussions = discussionMapper.findDiscussionByUserId(userId);
+		for (Discussion discussion : discussions) {
+			List<Reply> replys = replyMapper.findAll(discussion.getDiscussionId());
+			for (Reply reply : replys) {
+				if(userId!=reply.getUserId())
+				replyService.deleteReplyById(reply.getReplyId());
+			}
+			
+			
+			discussionMapper.deleteDiscussionById(discussion.getDiscussionId());
+			
+		}
+		
+	}
 
 
 	

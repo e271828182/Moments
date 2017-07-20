@@ -49,5 +49,6 @@ public interface UserMapper {
 	@Results({
 		@Result(id=true, column="user_id", property="userId"),			
 	})
-	public Object findUserByName(String name);
+	public User findUserByName(String name);
+
 }
